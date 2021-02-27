@@ -10,3 +10,8 @@ export interface Attribute {
   name: string;
   weight: number;
 }
+
+export interface CalculationVariable {
+  attributeScore: number;
+  attributeWeight: number;
+}
