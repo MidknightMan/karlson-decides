@@ -8,12 +8,16 @@ import { connect } from 'react-redux';
 import { StoreTypes } from '../redux/store/storeTypes';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
+import { navigate, RouteComponentProps } from '@reach/router';
+import { ChoicesState } from '../redux/reducers/choicesReducer';
 
-interface Props {}
+interface Props extends RouteComponentProps {
+  ChoicesState: ChoicesState;
+}
 
 function ChoiceCreation(props: Props) {
   const [choices, setChoices] = useState<Choice[]>([]);
-  const {} = props;
+  const { ChoicesState } = props;
 
   const { register, handleSubmit, watch, errors, reset } = useForm<
     Partial<Choice>
@@ -33,6 +37,8 @@ function ChoiceCreation(props: Props) {
 
   const setReduxChoices = () => {
     console.log('SETTING CHOICES IN REDUX');
+    // perform redux action
+    navigate('/attributes');
   };
 
   const deleteChoice = (id: string) => {
@@ -44,7 +50,6 @@ function ChoiceCreation(props: Props) {
     <div>
       <p>Step 1 of 3</p>
       <h2>Add some choices (up to 5):</h2>
-      {/* insert component to show choices */}
       <div
         style={{
           display: 'flex',
@@ -124,6 +129,7 @@ function ChoiceCreation(props: Props) {
           minHeight: 44,
         }}
         disabled={!choices}
+        onClick={setReduxChoices}
       >
         {`Next >`}
       </button>

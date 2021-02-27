@@ -1,6 +1,6 @@
 import React from 'react';
 import { Choice } from '../types/WebAppTypes';
-import MiscPic from '../assets/misc.png';
+import Cons from '../assets/consigliere1.jpg';
 
 interface Props {
   choice: Choice;
@@ -26,8 +26,8 @@ function ChoiceCard(props: Props) {
       }}
     >
       <img
-        src={!!choice.imgSrc ? choice.imgSrc : MiscPic}
-        alt={MiscPic}
+        src={!!choice.imgSrc ? choice.imgSrc : Cons}
+        alt={Cons}
         style={{
           maxWidth: '90%',
           maxHeight: '90%',
