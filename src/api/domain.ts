@@ -1,0 +1,4 @@
+export enum ResponseImg {
+  NONE_FOUND = 'NONE_FOUND',
+  ERROR_RETRIEVING = 'ERROR_RETRIEVING',
+}
