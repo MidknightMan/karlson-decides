@@ -54,7 +54,7 @@ function ChoiceCreation(props: Props) {
   return (
     <div>
       <p>Step 1 of 3</p>
-      <h2>Add some choices (up to 5):</h2>
+      <h2>Add some choices (minimum 2, up to 5):</h2>
       <div
         style={{
           display: 'flex',
@@ -127,13 +127,13 @@ function ChoiceCreation(props: Props) {
           width: '90%',
           placeSelf: 'center',
           borderRadius: 50,
-          backgroundColor: choices.length === 0 ? '#78909c40' : 'teal',
+          backgroundColor: choices.length < 2 ? '#78909c40' : 'teal',
           borderStyle: 'none',
           margin: '1%',
           color: 'white',
           minHeight: 44,
         }}
-        disabled={!choices}
+        disabled={choices.length < 2}
         onClick={setReduxChoices}
       >
         {`Next >`}

@@ -1,8 +1,9 @@
 import { Dispatch } from 'redux';
-import { Choice } from '../../types/WebAppTypes';
+import { Attribute, Choice } from '../../types/WebAppTypes';
 import {
   RESET_CHOICES,
   SETTING_CHOICES,
+  SET_ATTR_FOR_CHOICES,
   SET_CHOICES_FAIL,
   SET_CHOICES_SUCCESS,
 } from '../reduxTypes';
@@ -40,5 +41,21 @@ export function makeChoices(choices: Choice[]) {
 export function resetChoices() {
   return {
     type: RESET_CHOICES,
+  };
+}
+
+export function setAttributesForChoices(
+  choices: Choice[],
+  attributes: Attribute[]
+) {
+  const updatedChoices = choices.map((choice) => {
+    const newChoice = { ...choice };
+    newChoice.attributes = [...attributes];
+    return newChoice;
+  });
+  console.log({ updatedChoices });
+  return {
+    type: SET_ATTR_FOR_CHOICES,
+    updatedChoices,
   };
 }

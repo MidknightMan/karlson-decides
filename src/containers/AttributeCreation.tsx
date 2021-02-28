@@ -4,12 +4,20 @@ import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { makeAttributes } from '../redux/actions/attributesAction';
 import { resetChoices } from '../redux/actions/choicesAction';
+import { AttributesState } from '../redux/reducers/attributesReducer';
 import { StoreTypes } from '../redux/store/storeTypes';
-import { Attribute } from '../types/WebAppTypes';
+import { Attribute, Choice } from '../types/WebAppTypes';
+import Crypto from 'crypto';
+import AttributeCard from '../components/AttributeCard';
+import { ChoicesState } from '../redux/reducers/choicesReducer';
 
 interface Props extends RouteComponentProps {
   resetChoices: () => void;
+  makeAttributes: (attributes: Attribute[], choices: Choice[]) => void;
+  AttributesState: AttributesState;
+  ChoicesState: ChoicesState;
 }
 
 function AttributeCreation(props: Props) {
@@ -19,13 +27,60 @@ function AttributeCreation(props: Props) {
     Partial<Attribute>
   >();
 
-  const {} = props;
+  const { AttributesState, ChoicesState } = props;
+
+  const onSubmit = async (data: Partial<Attribute>) => {
+    const randomId = Crypto.randomBytes(20).toString('hex');
+    if (data.name) {
+      setAttributes([
+        ...attributes,
+        { id: randomId, name: data.name, weight: 50 },
+      ]);
+      reset();
+    }
+  };
+
+  const setReduxAttributes = () => {
+    const { choices } = ChoicesState;
+    console.log('SETTING Attributes IN REDUX');
+    props.makeAttributes(attributes, choices);
+  };
+
+  const deleteAttribute = (id: string) => {
+    const newAttributes = attributes.filter((attribute) => attribute.id !== id);
+    setAttributes([...newAttributes]);
+  };
+
+  if (AttributesState.success) {
+    navigate('/decide');
+    // define nav route
+  }
 
   return (
     <div>
       <p>Step 2 of 3</p>
       <h2>Add some attributes (up to 3):</h2>
       {/* component to show created attributes as well as default sustainability attribute */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        {attributes ? (
+          attributes.map((attribute) => {
+            return (
+              <AttributeCard
+                key={attribute.id}
+                attribute={attribute}
+                deleteAttribute={deleteAttribute}
+              />
+            );
+          })
+        ) : (
+          <h3>No attributes yet</h3>
+        )}
+      </div>
       <form
         style={{
           margin: '3%',
@@ -33,6 +88,7 @@ function AttributeCreation(props: Props) {
           display: 'flex',
           justifyContent: 'center',
         }}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="attributeName" />
         <input
@@ -90,6 +146,7 @@ function AttributeCreation(props: Props) {
         {`< Back`}
       </button>
       <button
+        onClick={() => setReduxAttributes()}
         style={{
           fontFamily: 'Red Hat Display',
           width: '90%',
@@ -111,6 +168,7 @@ function AttributeCreation(props: Props) {
 
 function mapStateToProps(state: StoreTypes) {
   return {
+    AttributesState: state.AttributesReducer,
     ChoicesState: state.ChoicesReducer,
     // update with Attributes reducer and below update with attributes action
   };
@@ -119,6 +177,8 @@ function mapStateToProps(state: StoreTypes) {
 function mapDispatchToProps(dispatch: ThunkDispatch<StoreTypes, void, Action>) {
   return {
     resetChoices: () => dispatch(resetChoices()),
+    makeAttributes: (attributes: Attribute[], choices: Choice[]) =>
+      dispatch(makeAttributes(attributes, choices)),
   };
 }
 
