@@ -38,7 +38,10 @@ function DecisionScreen(props: Props) {
         {`< Back`}
       </button>
       <button
-        onClick={() => props.resetAll()}
+        onClick={() => {
+          props.resetAll();
+          navigate('/');
+        }}
         style={{
           fontFamily: 'Red Hat Display',
           width: '90%',
