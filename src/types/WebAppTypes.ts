@@ -1,3 +1,6 @@
+import { ReactNode } from 'react';
+import { FlowElement } from 'react-flow-renderer';
+
 export interface Choice {
   id: string;
   name: string;
@@ -14,4 +17,11 @@ export interface Attribute {
 export interface CalculationVariable {
   attributeScore: number;
   attributeWeight: number;
+}
+
+export interface IFlowElement {
+  id: number;
+  type: 'input' | 'output' | 'default' | ReactNode;
+  data: any;
+  position: { x: number; y: number };
 }
