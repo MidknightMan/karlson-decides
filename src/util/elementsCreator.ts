@@ -1,6 +1,10 @@
-import { Attribute, Choice, IFlowElement } from '../types/WebAppTypes';
+import { Attribute, Choice, IFlowElement, Result } from '../types/WebAppTypes';
 
-export const elementsCreator = (attributes: Attribute[], choices: Choice[]) => {
+export const elementsCreator = (
+  attributes: Attribute[],
+  choices: Choice[],
+  result: Result
+) => {
   // TODO include window size and do a maxLen of attributes and choices
   let elements: IFlowElement[] = [];
   let counter = 0;
@@ -19,7 +23,7 @@ export const elementsCreator = (attributes: Attribute[], choices: Choice[]) => {
   });
 
   positionXAttribute = 0;
-  positionYAttribute = 300;
+  positionYAttribute = 200;
 
   choices.forEach((choice) => {
     const element: IFlowElement = {
@@ -32,6 +36,18 @@ export const elementsCreator = (attributes: Attribute[], choices: Choice[]) => {
     counter++;
     positionXAttribute = positionXAttribute + 200;
   });
+
+  positionXAttribute = 200;
+  positionYAttribute = 400;
+
+  const resultElement: IFlowElement = {
+    id: counter,
+    type: 'resultNode',
+    data: { data: { ...result } },
+    position: { x: positionXAttribute, y: positionYAttribute },
+  };
+
+  elements.push(resultElement);
 
   console.log('ELEMENTS CREATED', { elements });
 

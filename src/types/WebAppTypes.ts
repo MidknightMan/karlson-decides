@@ -25,3 +25,9 @@ export interface IFlowElement {
   data: any;
   position: { x: number; y: number };
 }
+
+export interface Result {
+  choiceId: string;
+  choiceName: string;
+  score: number;
+}

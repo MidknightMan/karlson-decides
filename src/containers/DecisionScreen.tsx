@@ -11,6 +11,14 @@ import { StoreTypes } from '../redux/store/storeTypes';
 import { elementsCreator } from '../util/elementsCreator';
 import ReactFlow from 'react-flow-renderer';
 import AttributeNode from '../components/AttributeNode';
+import {
+  Attribute,
+  CalculationVariable,
+  Choice,
+  Result,
+} from '../types/WebAppTypes';
+import { scoreCalculator } from '../util/ScoreCalc';
+import ResultNode from '../components/ResultNode';
 
 interface Props extends RouteComponentProps {
   resetAttributes: () => void;
@@ -25,10 +33,41 @@ function DecisionScreen(props: Props) {
     Choices: { choices },
   } = props;
 
-  const elements = elementsCreator(attributes, choices) as any;
+  const finalScore = (choices: Choice[], attributes: Attribute[]) => {
+    let result: Result[] = [];
+
+    choices.forEach((choice) => {
+      const choiceAtr: CalculationVariable[] = choice.attributes.map(
+        (choiceAttribute) => {
+          const thisAtr = attributes.find(
+            (attribute) => attribute.id === choiceAttribute.id
+          );
+          const attributeWeight = thisAtr?.weight ?? 50;
+          return {
+            attributeScore: choiceAttribute.weight,
+            attributeWeight: attributeWeight,
+          };
+        }
+      );
+      const choiceScore = {
+        choiceId: choice.id,
+        choiceName: choice.name,
+        score: scoreCalculator(choiceAtr),
+      };
+      console.log({ choiceScore });
+      result.push(choiceScore);
+    });
+    const finalResult = result.sort((a, b) => a.score - b.score)[0];
+    return finalResult;
+  };
+
+  const finalResult = finalScore(choices, attributes);
+
+  const elements = elementsCreator(attributes, choices, finalResult) as any;
 
   const nodeTypes = {
     attributeNode: AttributeNode,
+    resultNode: ResultNode,
   };
 
   return (
