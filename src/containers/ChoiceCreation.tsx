@@ -10,9 +10,11 @@ import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { navigate, RouteComponentProps } from '@reach/router';
 import { ChoicesState } from '../redux/reducers/choicesReducer';
+import { makeChoices } from '../redux/actions/choicesAction';
 
 interface Props extends RouteComponentProps {
   ChoicesState: ChoicesState;
+  makeChoices: (choices: Choice[]) => void;
 }
 
 function ChoiceCreation(props: Props) {
@@ -37,14 +39,17 @@ function ChoiceCreation(props: Props) {
 
   const setReduxChoices = () => {
     console.log('SETTING CHOICES IN REDUX');
-    // perform redux action
-    navigate('/attributes');
+    props.makeChoices(choices);
   };
 
   const deleteChoice = (id: string) => {
     const newChoices = choices.filter((choice) => choice.id !== id);
     setChoices([...newChoices]);
   };
+
+  if (ChoicesState.success) {
+    navigate('/attributes');
+  }
 
   return (
     <div>
@@ -144,7 +149,9 @@ function mapStateToProps(state: StoreTypes) {
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<StoreTypes, void, Action>) {
-  return {};
+  return {
+    makeChoices: (choices: Choice[]) => dispatch(makeChoices(choices)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChoiceCreation);

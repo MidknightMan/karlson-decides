@@ -1,9 +1,16 @@
 import { navigate, RouteComponentProps } from '@reach/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { resetChoices } from '../redux/actions/choicesAction';
+import { StoreTypes } from '../redux/store/storeTypes';
 import { Attribute } from '../types/WebAppTypes';
 
-interface Props extends RouteComponentProps {}
+interface Props extends RouteComponentProps {
+  resetChoices: () => void;
+}
 
 function AttributeCreation(props: Props) {
   const [attributes, setAttributes] = useState<Attribute[]>([]);
@@ -64,7 +71,10 @@ function AttributeCreation(props: Props) {
         </button>
       </form>
       <button
-        onClick={() => navigate('/choices')}
+        onClick={() => {
+          props.resetChoices();
+          navigate('/choices');
+        }}
         style={{
           fontFamily: 'Red Hat Display',
           width: '90%',
@@ -99,4 +109,17 @@ function AttributeCreation(props: Props) {
   );
 }
 
-export default AttributeCreation;
+function mapStateToProps(state: StoreTypes) {
+  return {
+    ChoicesState: state.ChoicesReducer,
+    // update with Attributes reducer and below update with attributes action
+  };
+}
+
+function mapDispatchToProps(dispatch: ThunkDispatch<StoreTypes, void, Action>) {
+  return {
+    resetChoices: () => dispatch(resetChoices()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AttributeCreation);
