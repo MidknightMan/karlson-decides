@@ -12,7 +12,7 @@ import { AttributesState } from '../redux/reducers/attributesReducer';
 import { ChoicesState } from '../redux/reducers/choicesReducer';
 import { StoreTypes } from '../redux/store/storeTypes';
 import { elementsCreator } from '../util/elementsCreator';
-import ReactFlow from 'react-flow-renderer';
+import ReactFlow, { Controls, MiniMap } from 'react-flow-renderer';
 import AttributeNode from '../components/AttributeNode';
 import { Attribute, Choice, IFlowElement, Result } from '../types/WebAppTypes';
 import ResultNode from '../components/ResultNode';
@@ -240,14 +240,21 @@ function DecisionScreen(props: Props) {
   return (
     <div>
       <p>Step 3 of 3</p>
-      <div style={{ height: 500, margin: '2%', backgroundColor: 'red' }}>
+      <p>
+        Decision Time! We added sustainability in as we feel it should be part
+        of all decisions
+      </p>
+      <div style={{ height: 500, margin: '2%', backgroundColor: '#b2ebf240' }}>
         <ReactFlow
           elements={elements}
           nodeTypes={nodeTypes}
           snapToGrid={true}
           snapGrid={[20, 20]}
           onLoad={onLoad}
-        />
+        >
+          <Controls />
+          <MiniMap />
+        </ReactFlow>
       </div>
       <button
         onClick={() => {

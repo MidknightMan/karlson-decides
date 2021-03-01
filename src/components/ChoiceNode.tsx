@@ -1,4 +1,5 @@
 import React, { memo, useCallback } from 'react';
+import { Handle, Position } from 'react-flow-renderer';
 import { Choice } from '../types/WebAppTypes';
 
 const ChoiceNode = memo(
@@ -25,6 +26,7 @@ const ChoiceNode = memo(
         {choice.attributes.map((attribute) => {
           return (
             <div key={attribute.id}>
+              <Handle type="source" position={Position.Top} />
               <p>{attribute.name}</p>
               <input
                 type="range"
@@ -34,6 +36,7 @@ const ChoiceNode = memo(
                 onChange={(e) => memoizedUpdate(e, attribute.id)}
               />
               <div>{attribute.weight}</div>
+              <Handle type="target" position={Position.Bottom} />
             </div>
           );
         })}

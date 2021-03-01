@@ -9,11 +9,12 @@ const ResultNode = memo(({ data: { data } }: { data: { data: Result } }) => {
         padding: 10,
         backgroundColor: 'white',
         borderStyle: 'solid',
-        borderWidth: 1,
+        borderWidth: 5,
         borderColor: 'teal',
         borderRadius: 4,
       }}
     >
+      <div>Top Choice:</div>
       <div>{data.choiceName}</div>
       <div>{data.score}</div>
       <Handle type="source" position={Position.Top} />

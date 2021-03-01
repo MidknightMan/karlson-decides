@@ -36,7 +36,7 @@ const AttributeNode = memo(
           borderRadius: 4,
         }}
       >
-        <div>{name} Weight</div>
+        <div>{name} weight</div>
         <input
           type="range"
           min="0"
