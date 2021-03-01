@@ -16,7 +16,6 @@ export const elementsCreator = (
   ) => void
 ) => {
   console.log('RUNNING ELEMENT CREATOR');
-  // TODO include window size and do a maxLen of attributes and choices
   let elements: IFlowElement[] = [];
   let counter = 0;
   let positionXAttribute = 0;
@@ -74,10 +73,7 @@ export const elementsCreator = (
 
   elements.push(resultElement);
 
-  // TODO create connector edges
-
   console.log('ELEMENTS CREATED', { elements });
 
   return elements;
-  // build up elements
 };

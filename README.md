@@ -23,4 +23,11 @@ To install and run this web-app on your machine, please follow these instruction
 
 Thanks, and enjoy.
 
-(P.S There is always room for improvement, this codebase is by no means perfect!)
+P.S There is always room for improvement, this codebase is by no means perfect... =>
+
+To Do List:
+
+1. Remove inline styling and centralise to Styled Components
+2. Add more tests for functions and components
+3. Go all Uncle Bob and extract out the functions and get some more cleanliness
+4. Add husky pre-commit commands for linting rules to ensure future cleanliness
