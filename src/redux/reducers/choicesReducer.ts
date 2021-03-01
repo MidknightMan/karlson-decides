@@ -2,6 +2,7 @@ import { Choice } from '../../types/WebAppTypes';
 import {
   RESET_CHOICES,
   SETTING_CHOICES,
+  SET_ATTR_FOR_CHOICES,
   SET_CHOICES_FAIL,
   SET_CHOICES_SUCCESS,
 } from '../reduxTypes';
@@ -46,6 +47,11 @@ export default function choicesReducer(state = initialState, action: any) {
       return {
         ...state,
         ...initialState,
+      };
+    case SET_ATTR_FOR_CHOICES:
+      return {
+        ...state,
+        choices: [...action.updatedChoices],
       };
     default:
       return state;

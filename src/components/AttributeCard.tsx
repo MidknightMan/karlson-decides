@@ -1,16 +1,13 @@
 import React from 'react';
-import { Choice } from '../types/WebAppTypes';
-import Cons from '../assets/consigliere1.jpg';
+import { Attribute } from '../types/WebAppTypes';
 
 interface Props {
-  choice: Choice;
-  deleteChoice: (id: string) => void;
+  attribute: Attribute;
+  deleteAttribute: (id: string) => void;
 }
 
-function ChoiceCard(props: Props) {
-  const { choice, deleteChoice } = props;
-
-  console.log(choice, 'CHOICE CARD PROPS', !!choice.imgSrc);
+function AttributeCard(props: Props) {
+  const { attribute, deleteAttribute } = props;
 
   return (
     <div
@@ -25,7 +22,7 @@ function ChoiceCard(props: Props) {
         justifyContent: 'center',
       }}
     >
-      <img
+      {/* <img
         src={!!choice.imgSrc ? choice.imgSrc : Cons}
         alt={Cons}
         style={{
@@ -35,8 +32,8 @@ function ChoiceCard(props: Props) {
           margin: 10,
           placeSelf: 'center',
         }}
-      />
-      <p>{choice.name}</p>
+      /> */}
+      <p>{attribute.name}</p>
       <button
         style={{
           fontFamily: 'Red Hat Display',
@@ -48,7 +45,7 @@ function ChoiceCard(props: Props) {
           margin: 10,
           color: 'white',
         }}
-        onClick={() => deleteChoice(choice.id)}
+        onClick={() => deleteAttribute(attribute.id)}
       >
         Remove
       </button>
@@ -56,4 +53,4 @@ function ChoiceCard(props: Props) {
   );
 }
 
-export default ChoiceCard;
+export default AttributeCard;
