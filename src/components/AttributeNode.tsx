@@ -1,8 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { Handle, Position } from 'react-flow-renderer';
-import { Attribute } from '../types/WebAppTypes';
 
-interface AttributeNode {
+interface AttributeNodeType {
   value: number;
   name: string;
   nodeId: number;
@@ -15,13 +14,14 @@ const AttributeNode = memo(
     id,
     selected,
   }: {
-    data: AttributeNode;
+    data: AttributeNodeType;
     id: string;
     selected: boolean;
   }) => {
     const { value, name, nodeId, onChange } = data;
     const memoizedUpdate = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => onChange(e, id),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [data, nodeId]
     );
 

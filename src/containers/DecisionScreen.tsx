@@ -12,16 +12,9 @@ import { AttributesState } from '../redux/reducers/attributesReducer';
 import { ChoicesState } from '../redux/reducers/choicesReducer';
 import { StoreTypes } from '../redux/store/storeTypes';
 import { elementsCreator } from '../util/elementsCreator';
-import ReactFlow, { ReactFlowProvider } from 'react-flow-renderer';
+import ReactFlow from 'react-flow-renderer';
 import AttributeNode from '../components/AttributeNode';
-import {
-  Attribute,
-  CalculationVariable,
-  Choice,
-  IFlowElement,
-  Result,
-} from '../types/WebAppTypes';
-import { scoreCalculator } from '../util/ScoreCalc';
+import { Attribute, Choice, IFlowElement, Result } from '../types/WebAppTypes';
 import ResultNode from '../components/ResultNode';
 import { finalScore } from '../util/finalScore';
 import ChoiceNode from '../components/ChoiceNode';
@@ -89,10 +82,6 @@ function DecisionScreen(props: Props) {
     return result;
   };
 
-  const cbResult = useCallback((els: any[]) => {
-    return resultCalc(els);
-  }, []);
-
   const elCreate = useCallback(
     (
       onChange: (
@@ -117,6 +106,7 @@ function DecisionScreen(props: Props) {
       ) as any;
       return elems;
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -222,6 +212,7 @@ function DecisionScreen(props: Props) {
     const elems = elCreate(onChange, onChoiceAtrChange);
 
     setElements(elems);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-import { ResponseImg } from './domain';
 import { IMAGE_API } from './globalConfig';
 
 export const imageSearch = (searchTerm: string) => {
@@ -8,13 +7,11 @@ export const imageSearch = (searchTerm: string) => {
         const imgUri: string = data.photos[0].src.medium;
         return imgUri;
       } else {
-        // return ResponseImg.NONE_FOUND;
         return '';
       }
     })
     .catch((err) => {
       console.log('ERROR Retrieving image', err);
       return '';
-      // return ResponseImg.ERROR_RETRIEVING;
     });
 };

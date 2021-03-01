@@ -7,6 +7,7 @@ const ChoiceNode = memo(
     const memoizedUpdate = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>, atrId: string) =>
         data.onChange(e, id, atrId, choice.id),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [data, id]
     );
     return (

@@ -4,11 +4,7 @@ import AttributeCreation from '../containers/AttributeCreation';
 import ChoiceCreation from '../containers/ChoiceCreation';
 import DecisionScreen from '../containers/DecisionScreen';
 
-interface Props {}
-
-function Nav(props: Props) {
-  const {} = props;
-
+function Nav() {
   return (
     <Router>
       <ChoiceCreation default path="/choices" />

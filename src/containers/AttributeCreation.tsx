@@ -23,9 +23,7 @@ interface Props extends RouteComponentProps {
 function AttributeCreation(props: Props) {
   const [attributes, setAttributes] = useState<Attribute[]>([]);
 
-  const { register, handleSubmit, watch, errors, reset } = useForm<
-    Partial<Attribute>
-  >();
+  const { register, handleSubmit, reset } = useForm<Partial<Attribute>>();
 
   const { AttributesState, ChoicesState } = props;
 

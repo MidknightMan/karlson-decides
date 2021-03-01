@@ -21,9 +21,7 @@ function ChoiceCreation(props: Props) {
   const [choices, setChoices] = useState<Choice[]>([]);
   const { ChoicesState } = props;
 
-  const { register, handleSubmit, watch, errors, reset } = useForm<
-    Partial<Choice>
-  >();
+  const { register, handleSubmit, reset } = useForm<Partial<Choice>>();
 
   const onSubmit = async (data: Partial<Choice>) => {
     const randomId = Crypto.randomBytes(20).toString('hex');
