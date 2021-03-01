@@ -51,7 +51,7 @@ function DecisionScreen(props: Props) {
     let choices: Choice[];
     let attributes: Attribute[];
 
-    if (elements.length === 0) {
+    if (els.length === 0) {
       return {
         choiceId: '',
         choiceName: '',
@@ -145,6 +145,8 @@ function DecisionScreen(props: Props) {
         const resultToUpdate = nextElements.findIndex(
           (element) => element.type === 'resultNode'
         );
+
+        console.log({ nextElements });
 
         const newResult = resultCalc(nextElements);
 

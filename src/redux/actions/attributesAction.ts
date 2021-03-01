@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { sustainabilityAttribute } from '../../constants';
 import { Attribute, Choice } from '../../types/WebAppTypes';
 import {
   CHANGE_ATTRIBUTE_WEIGHT,
@@ -16,9 +17,13 @@ export function settingAttributes() {
 }
 
 export function setAttributesSuccess(attributes: Attribute[]) {
+  const attributesInclSustainability = [
+    ...attributes,
+    { ...sustainabilityAttribute },
+  ];
   return {
     type: SET_ATTRIBUTES_SUCCESS,
-    attributes,
+    attributes: [...attributesInclSustainability],
   };
 }
 

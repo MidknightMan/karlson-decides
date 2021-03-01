@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { sustainabilityAttribute } from '../../constants';
 import { Attribute, Choice } from '../../types/WebAppTypes';
 import {
   RESET_CHOICES,
@@ -50,7 +51,7 @@ export function setAttributesForChoices(
 ) {
   const updatedChoices = choices.map((choice) => {
     const newChoice = { ...choice };
-    newChoice.attributes = [...attributes];
+    newChoice.attributes = [...attributes, { ...sustainabilityAttribute }];
     return newChoice;
   });
   console.log({ updatedChoices });
