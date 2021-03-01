@@ -51,14 +51,12 @@ function AttributeCreation(props: Props) {
 
   if (AttributesState.success) {
     navigate('/decide');
-    // define nav route
   }
 
   return (
     <div>
       <p>Step 2 of 3</p>
       <h2>Add some attributes (up to 3):</h2>
-      {/* component to show created attributes as well as default sustainability attribute */}
       <div
         style={{
           display: 'flex',
@@ -168,7 +166,6 @@ function mapStateToProps(state: StoreTypes) {
   return {
     AttributesState: state.AttributesReducer,
     ChoicesState: state.ChoicesReducer,
-    // update with Attributes reducer and below update with attributes action
   };
 }
 

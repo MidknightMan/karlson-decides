@@ -176,9 +176,6 @@ function DecisionScreen(props: Props) {
             return { ...attribute };
           });
 
-          // updatedChoice.attributes[atrToUpdate].weight =
-          //   event.target.valueAsNumber;
-
           updatedChoice.attributes = [...choiceAttributes];
 
           console.log(e, 'ELEMENT IN MAP', atrToUpdate);
@@ -302,7 +299,6 @@ function mapStateToProps(state: StoreTypes) {
   return {
     Attributes: state.AttributesReducer,
     Choices: state.ChoicesReducer,
-    // update with Attributes reducer and below update with attributes action
   };
 }
 
