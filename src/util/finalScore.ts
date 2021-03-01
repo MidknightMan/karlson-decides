@@ -30,6 +30,9 @@ export const finalScore = (choices: Choice[], attributes: Attribute[]) => {
     console.log({ choiceScore });
     result.push(choiceScore);
   });
-  const finalResult = result.sort((a, b) => a.score - b.score)[0];
+  const sortedResults = result.sort((a, b) => a.score - b.score);
+  console.log('RESULT FROM CALC', result, { sortedResults });
+
+  const finalResult = result.sort((a, b) => (a.score < b.score ? 1 : -1))[0];
   return finalResult;
 };

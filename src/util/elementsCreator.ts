@@ -7,6 +7,12 @@ export const elementsCreator = (
   handleWeightChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string
+  ) => void,
+  handleChoiceWeightChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string,
+    atrId: string,
+    choiceId: string
   ) => void
 ) => {
   console.log('RUNNING ELEMENT CREATOR');
@@ -26,6 +32,7 @@ export const elementsCreator = (
         name: attribute.name,
         nodeId: counter,
         onChange: handleWeightChange,
+        attributeId: attribute.id,
       },
       position: { x: positionXAttribute, y: positionYAttribute },
     };
@@ -42,7 +49,11 @@ export const elementsCreator = (
     const element: IFlowElement = {
       id: counter.toString(),
       type: 'choiceNode',
-      data: { name: choice.name, choiceData: choice },
+      data: {
+        name: choice.name,
+        choiceData: choice,
+        onChange: handleChoiceWeightChange,
+      },
       position: { x: positionXAttribute, y: positionYAttribute },
     };
     elements.push(element);

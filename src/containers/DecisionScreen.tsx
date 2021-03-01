@@ -47,9 +47,64 @@ function DecisionScreen(props: Props) {
   const [elements, setElements] = useState<any>([]);
   const [reactflowInstance, setReactflowInstance] = useState<any | null>(null);
 
+  const resultCalc = (els: any[]): Result => {
+    let choices: Choice[];
+    let attributes: Attribute[];
+
+    if (elements.length === 0) {
+      return {
+        choiceId: '',
+        choiceName: '',
+        score: 50,
+      };
+    }
+
+    const choiceElems = els.filter(
+      (element: IFlowElement) => element.type === 'choiceNode'
+    ) as IFlowElement[];
+
+    choices = choiceElems.map((choiceElem) => {
+      return choiceElem.data.choiceData as Choice;
+    });
+
+    const atrElems = els.filter(
+      (element: IFlowElement) => element.type === 'attributeNode'
+    ) as IFlowElement[];
+
+    attributes = atrElems.map((atrElem) => {
+      const atr: Attribute = {
+        id: atrElem.data.attributeId,
+        name: atrElem.data.name,
+        weight: atrElem.data.value,
+      };
+      return atr;
+    });
+
+    console.log('RESULT CALC', choices, attributes);
+
+    const result = finalScore(choices, attributes);
+
+    console.log({ result });
+
+    return result;
+  };
+
+  const cbResult = useCallback((els: any[]) => {
+    return resultCalc(els);
+  }, []);
+
   const elCreate = useCallback(
     (
-      onChange: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void
+      onChange: (
+        event: React.ChangeEvent<HTMLInputElement>,
+        id: string
+      ) => void,
+      onChoiceAtrChange: (
+        event: React.ChangeEvent<HTMLInputElement>,
+        id: string,
+        atrId: string,
+        choiceId: string
+      ) => void
     ) => {
       console.log('IN USE CALLBACK FOR CREATION');
       const finalResult = finalScore(choices, attributes);
@@ -57,8 +112,8 @@ function DecisionScreen(props: Props) {
         attributes,
         choices,
         finalResult,
-        // props.updateAttributeWeight
-        onChange
+        onChange,
+        onChoiceAtrChange
       ) as any;
       return elems;
     },
@@ -86,34 +141,83 @@ function DecisionScreen(props: Props) {
             },
           };
         });
+
+        const resultToUpdate = nextElements.findIndex(
+          (element) => element.type === 'resultNode'
+        );
+
+        const newResult = resultCalc(nextElements);
+
+        nextElements[resultToUpdate].data = { data: { ...newResult } };
+
         return nextElements;
       });
-      // const updatedElements = [...elements];
-      // const indexToUpdate = updatedElements.findIndex(
-      //   (element) => element.id === id
-      // );
-      // updatedElements[indexToUpdate].value = event.target.valueAsNumber;
-      // console.log(
-      //   'CHANGE ELEM',
-      //   event.target.value,
-      //   id,
-      //   indexToUpdate,
-      //   updatedElements,
-      //   elements
-      // );
     };
 
-    // const finalResult = finalScore(choices, attributes);
+    const onChoiceAtrChange = (
+      event: React.ChangeEvent<HTMLInputElement>,
+      id: string,
+      atrId: string,
+      choiceId: string
+    ) => {
+      setElements((els: IFlowElement[]) => {
+        const nextChoiceElements = els.map((e) => {
+          if (e.id !== id) {
+            return e;
+          }
+          const updatedChoice = {
+            ...e.data.choiceData,
+          } as Choice;
+          const atrToUpdate = updatedChoice.attributes.findIndex(
+            (attribute) => attribute.id === atrId
+          );
 
-    // const elems = elementsCreator(
-    //   attributes,
-    //   choices,
-    //   finalResult,
-    //   // props.updateAttributeWeight
-    //   onChange
-    // ) as any;
+          const choiceAttributes = updatedChoice.attributes.map((attribute) => {
+            if (attribute.id === atrId) {
+              const newAttribute: Attribute = {
+                id: attribute.id,
+                name: attribute.name,
+                weight: event.target.valueAsNumber,
+              };
+              return newAttribute;
+            }
+            return { ...attribute };
+          });
 
-    const elems = elCreate(onChange);
+          // updatedChoice.attributes[atrToUpdate].weight =
+          //   event.target.valueAsNumber;
+
+          updatedChoice.attributes = [...choiceAttributes];
+
+          console.log(e, 'ELEMENT IN MAP', atrToUpdate);
+
+          if (e.data.choiceData.id !== choiceId) {
+            return {
+              ...e,
+            };
+          }
+
+          return {
+            ...e,
+            data: {
+              ...e.data,
+              choiceData: { ...updatedChoice },
+            },
+          };
+        });
+        const resultToUpdate = nextChoiceElements.findIndex(
+          (element) => element.type === 'resultNode'
+        );
+
+        const newResult = resultCalc(nextChoiceElements);
+
+        nextChoiceElements[resultToUpdate].data = { data: { ...newResult } };
+        console.log({ nextChoiceElements });
+        return nextChoiceElements;
+      });
+    };
+
+    const elems = elCreate(onChange, onChoiceAtrChange);
 
     setElements(elems);
   }, []);
