@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Handle, Position } from 'react-flow-renderer';
 import { Result } from '../types/WebAppTypes';
 
-const ResultNode = ({ data: { data } }: { data: { data: Result } }) => {
+const ResultNode = memo(({ data: { data } }: { data: { data: Result } }) => {
   return (
     <div
       style={{
@@ -19,6 +19,6 @@ const ResultNode = ({ data: { data } }: { data: { data: Result } }) => {
       <Handle type="source" position={Position.Top} />
     </div>
   );
-};
+});
 
 export default ResultNode;

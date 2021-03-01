@@ -4,6 +4,7 @@ import {
   SET_ATTRIBUTES_FAIL,
   SET_ATTRIBUTES_SUCCESS,
   RESET_ATTRIBUTES,
+  CHANGE_ATTRIBUTE_WEIGHT,
 } from '../reduxTypes';
 
 export interface AttributesState {
@@ -46,6 +47,11 @@ export default function attributesReducer(state = initialState, action: any) {
       return {
         ...state,
         ...initialState,
+      };
+    case CHANGE_ATTRIBUTE_WEIGHT:
+      return {
+        ...state,
+        attributes: [...action.updatedAttributes],
       };
     default:
       return state;

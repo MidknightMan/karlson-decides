@@ -20,7 +20,7 @@ export interface CalculationVariable {
 }
 
 export interface IFlowElement {
-  id: number;
+  id: string;
   type: 'input' | 'output' | 'default' | ReactNode;
   data: any;
   position: { x: number; y: number };

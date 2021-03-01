@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import { Attribute, Choice } from '../../types/WebAppTypes';
 import {
+  CHANGE_ATTRIBUTE_WEIGHT,
   RESET_ATTRIBUTES,
   SETTING_ATTRIBUTES,
   SET_ATTRIBUTES_FAIL,
@@ -36,6 +37,23 @@ export function makeAttributes(attributes: Attribute[], choices: Choice[]) {
     if (!attributes) {
       dispatch(setAttributesFailed());
     }
+  };
+}
+
+export function updateAttributeWeight(
+  attributes: Attribute[],
+  attributeId: string,
+  updatedWeight: number
+) {
+  const indexToUpdate = attributes.findIndex(
+    (attribute) => attribute.id === attributeId
+  );
+  const updatedAttributes = [...attributes];
+  updatedAttributes[indexToUpdate].weight = updatedWeight;
+  console.log({ updatedAttributes }, 'UPDATED ATTRIBUTES');
+  return {
+    type: CHANGE_ATTRIBUTE_WEIGHT,
+    updatedAttributes,
   };
 }
 

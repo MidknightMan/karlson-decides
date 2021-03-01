@@ -3,18 +3,30 @@ import { Attribute, Choice, IFlowElement, Result } from '../types/WebAppTypes';
 export const elementsCreator = (
   attributes: Attribute[],
   choices: Choice[],
-  result: Result
+  result: Result,
+  handleWeightChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => void
 ) => {
+  console.log('RUNNING ELEMENT CREATOR');
   // TODO include window size and do a maxLen of attributes and choices
   let elements: IFlowElement[] = [];
   let counter = 0;
   let positionXAttribute = 0;
   let positionYAttribute = 0;
+
+  // create attribute nodes
   attributes.forEach((attribute) => {
     const element: IFlowElement = {
-      id: counter,
+      id: counter.toString(),
       type: 'attributeNode',
-      data: { data: { ...attribute } },
+      data: {
+        value: attribute.weight,
+        name: attribute.name,
+        nodeId: counter,
+        onChange: handleWeightChange,
+      },
       position: { x: positionXAttribute, y: positionYAttribute },
     };
     elements.push(element);
@@ -25,11 +37,12 @@ export const elementsCreator = (
   positionXAttribute = 0;
   positionYAttribute = 200;
 
+  // create choice nodes
   choices.forEach((choice) => {
     const element: IFlowElement = {
-      id: counter,
-      type: 'default',
-      data: { label: choice.name },
+      id: counter.toString(),
+      type: 'choiceNode',
+      data: { name: choice.name, choiceData: choice },
       position: { x: positionXAttribute, y: positionYAttribute },
     };
     elements.push(element);
@@ -40,14 +53,17 @@ export const elementsCreator = (
   positionXAttribute = 200;
   positionYAttribute = 400;
 
+  // create end result node
   const resultElement: IFlowElement = {
-    id: counter,
+    id: counter.toString(),
     type: 'resultNode',
     data: { data: { ...result } },
     position: { x: positionXAttribute, y: positionYAttribute },
   };
 
   elements.push(resultElement);
+
+  // TODO create connector edges
 
   console.log('ELEMENTS CREATED', { elements });
 
